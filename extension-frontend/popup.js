@@ -1,40 +1,34 @@
 // Wait for the popup DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
   
-  // 1. Get the button
   const simplifyButton = document.getElementById('simplifyButton');
-  
-  // 2. Set up button click event
+  const outputDiv = document.getElementById('output');
+
+  // Set up button click event
   simplifyButton.addEventListener('click', () => {
     
-    // 3. Find the active tab
+    // Find the active tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       
-      // 4. Run a script in the active tab
+      // Run a script in the active tab
       chrome.scripting.executeScript(
         {
           target: { tabId: tabs[0].id },
           function: getHighlightedText,
         },
         (injectionResults) => {
-          // This is the callback, runs after the script
+          // Callback for after the script runs
           
-          // Check for injection errors (e.g., on chrome:// pages)
           if (!injectionResults || injectionResults.length === 0) {
-            const outputDiv = document.getElementById('output');
             outputDiv.innerText = "Error: Cannot access this page. Try a regular website.";
-            console.error("Script injection failed.");
-            return; // Exit if script failed
+            return; 
           }
 
-          // Get the result from the injection
           const highlightedText = injectionResults[0].result;
 
-          // 5. Display the result in our popup
-          const outputDiv = document.getElementById('output');
-          
           if (highlightedText) {
-            outputDiv.innerText = highlightedText;
+            // Text was found! Now, send it to the backend.
+            callMyApi(highlightedText);
           } else {
             outputDiv.innerText = "You didn't highlight any text!";
           }
@@ -47,4 +41,38 @@ document.addEventListener('DOMContentLoaded', () => {
 // This function runs on the *webpage* to get the selected text.
 function getHighlightedText() {
   return window.getSelection().toString();
+}
+
+// --- NEW FUNCTION ---
+// This function sends the text to your Flask backend
+async function callMyApi(text) {
+  const outputDiv = document.getElementById('output');
+  outputDiv.innerText = "Simplifying..."; // Show a loading message
+
+  try {
+    // 1. Use 'fetch' to send a POST request to your server
+    const response = await fetch('http://127.0.0.1:5000/simplify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Tell the server we're sending JSON
+      },
+      body: JSON.stringify({ text: text }), // Send the text in JSON format
+    });
+
+    // 2. Wait for the server's response and parse it as JSON
+    const data = await response.json();
+
+    if (data.error) {
+      // Show an error if the server had one
+      outputDiv.innerText = `Error: ${data.error}`;
+    } else {
+      // 3. Display the simplified text from the backend!
+      outputDiv.innerText = data.simplified_text;
+    }
+
+  } catch (error) {
+    // This catches network errors (e.g., server is not running)
+    console.error("Error calling API:", error);
+    outputDiv.innerText = "Error: Could not connect to the backend server. Is it running?";
+  }
 }

@@ -1,0 +1,9 @@
+# Ignore Python virtual environments
+venv/
+*.venv/
+
+# Ignore .env files (contains secret keys)
+.env
+
+# Ignore Mac system files
+.DS_Store
