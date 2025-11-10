@@ -3,9 +3,14 @@
   "name": "AI Text Simplifier",
   "version": "1.0",
   "description": "Simplifies highlighted text on any webpage.",
-  "permissions": ["activeTab"],
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon.png"
-  }
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
 }
