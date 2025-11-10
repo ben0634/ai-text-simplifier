@@ -4,7 +4,7 @@ This project is a full-stack Google Chrome extension that simplifies highlighted
 
 ---
 
-## 🚀 How It Works
+## How It Works
 
 This application is built with a classic client-server architecture:
 

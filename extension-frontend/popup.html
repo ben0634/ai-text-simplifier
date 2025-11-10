@@ -1,40 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    
-    body { 
-      width: 300px; 
-      font-family: Arial, sans-serif; 
+    body {
+      width: 320px;
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 14px;
+      padding: 16px;
+      background-color: #f9fafb;
+      color: #111827;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 16px 0;
+      color: #000;
+    }
+
+    /* --- Simplify Button --- */
+    #simplifyButton {
+      width: 100%; /* Full width */
       padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      background-color: #007BFF;
+      color: white;
+      margin-bottom: 16px; /* Space below button */
     }
-    button { 
-      width: 100%; 
-      padding: 10px; 
-      background-color: #007BFF; 
-      color: white; 
-      border: none; 
-      cursor: pointer; 
-    }
-    button:hover {
+    #simplifyButton:hover {
       background-color: #0056b3;
     }
-    #output { 
-      margin-top: 15px; 
-      padding: 10px; 
-      background-color: #f4f4f4; 
-      border-radius: 5px; 
-      min-height: 50px;
+
+    /* --- Output Area --- */
+    #output {
+      min-height: 100px;
+      max-height: 250px; /* Prevent it from getting too tall */
+      overflow-y: auto; /* Add scrollbar if needed */
+      background-color: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 12px;
       font-size: 14px;
       line-height: 1.5;
+    }
+
+    /* --- Loading Spinner --- */
+    .loader {
+      display: none; /* Hide by default */
+      margin: 20px auto;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #007BFF;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    /* This 'show' class will be added by JS */
+    .loader.show {
+      display: block;
+    }
+    
+    /* This 'hide' class will be added by JS */
+    #output.hide {
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
   <h3>AI Text Simplifier</h3>
-  
+
   <button id="simplifyButton">Simplify Highlighted Text</button>
   
+  <div class="loader" id="loader"></div>
+
   <div id="output">
     Your simplified text will appear here...
   </div>
