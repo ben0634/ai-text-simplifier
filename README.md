@@ -4,6 +4,8 @@ A full-stack Google Chrome extension and Python API service that simplifies comp
 
 [Report Issue](https://github.com/your-username/AI-Text-Simplifier/issues)
 
+> **Note:** This is an exploratory proof-of-concept project built to experiment with Chrome Extensions (Manifest V3), Python backend proxy architectures, and OpenAI LLM API integrations.
+
 ---
 
 ## Previews
