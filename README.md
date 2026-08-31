@@ -28,3 +28,48 @@ A full-stack Google Chrome extension and Python API service that simplifies comp
 
 ## How It Works
 
+1. **Frontend:** The user highlights text on any webpage. The extension captures the active selection using Chrome's Scripting API.
+2. **API Proxy:** The extension sends a POST request to the local Flask backend (`/simplify`), keeping your OpenAI API keys completely hidden and secure.
+3. **LLM Processing:** The Flask server prompts OpenAI (`gpt-3.5-turbo`) to condense and clarify the text into structured key takeaways.
+4. **Popup Display:** The formatted bullet points and bold highlights render instantly inside the extension popup.
+
+---
+
+## Tech Stack
+
+- **Frontend (Browser Extension):**
+  - JavaScript (ES6+)
+  - HTML5 & CSS3 (Inter Typography)
+  - Chrome Extension API (Manifest V3)
+- **Backend (Microservice):**
+  - Python 3
+  - Flask (REST API)
+  - OpenAI Python SDK (`gpt-3.5-turbo`)
+  - `flask-cors` (Secure Cross-Origin Resource Sharing)
+  - `python-dotenv` (Environment Variable Management)
+
+---
+
+## Getting Started
+
+### 1. Backend Server Setup
+
+```bash
+# Navigate to the backend directory
+cd backend-server
+
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create your .env file
+cp .env.example .env
+# Open .env and add your OPENAI_API_KEY
+
+# Start the Flask API server
+python app.py
+
+
